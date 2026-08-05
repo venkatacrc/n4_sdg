@@ -1,0 +1,11 @@
+# Client / orchestration environment (run on the host, alongside vLLM or in
+# a separate venv). vLLM itself and the NeMo-Aligner reward server run
+# inside their own environments (see scripts/serve_instruct.sh and
+# scripts/serve_reward.sh) and do NOT need this file.
+
+nemo-curator>=0.6.0
+openai>=1.40.0
+pyyaml>=6.0
+tqdm>=4.66.0
+nvidia-pytriton>=0.5.10   # only needed to score against serve_reward.sh from this environment
+huggingface_hub[cli]>=0.24.0

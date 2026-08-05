@@ -1,0 +1,42 @@
+# Configuration shared by generate_prompts.py, generate_responses.py, and
+# score_and_filter.py. Override any value with an environment variable of
+# the same name (upper-cased), e.g. INSTRUCT_BASE_URL=http://otherhost:8000/v1.
+
+instruct:
+  base_url: "http://localhost:8000/v1"
+  api_key: "not-needed-for-local-vllm"
+  model: "nemotron-4-340b-instruct"
+  sampling:
+    temperature: 0.7
+    top_p: 0.95
+    max_tokens: 1024
+  # Number of independent responses to sample per prompt before reward filtering.
+  n_samples_per_prompt: 4
+
+reward:
+  host: "localhost"
+  port: 1424
+  model_name: "reward_model"
+  # Keep only responses whose scalarized reward is >= this value (0-4 scale
+  # per attribute; the scalarized score can be negative because the
+  # verbosity weight is negative). Tune after inspecting a sample run.
+  min_scalar_score: 1.0
+  # Keep the top-k scored responses per prompt (1 = SFT-style single best
+  # response, >=2 = preference pairs for the highest- and lowest-scoring
+  # samples).
+  keep_top_k: 1
+
+pipeline:
+  n_macro_topics: 20
+  n_subtopics: 5
+  n_openlines: 10
+  n_revisions: 2
+  writing_text_material_types: ["Poems", "Essays", "Emails", "Reports"]
+  math_school_level: "university"
+  ignore_conversion_failure: true
+
+paths:
+  data_dir: "/raid/sdg_data"
+  prompts_file: "/raid/sdg_data/prompts.jsonl"
+  raw_responses_file: "/raid/sdg_data/raw_dataset.jsonl"
+  final_dataset_file: "/raid/sdg_data/sft_dataset.jsonl"
